@@ -10,10 +10,65 @@ content:
     type: collection
     path: src/content/posts
     format: yaml-frontmatter
+    filename:
+      template: "{slug}.md"
+      field: create
+    subfolders: false
     fields:
       - name: title
         label: Titre
         type: string
+        required: true
+
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+
+      - name: excerpt
+        label: Extrait
+        type: text
+        required: true
+
+      - name: section
+        label: Rubrique
+        type: select
+        required: true
+        options:
+          values:
+            - name: chronik
+              label: Chronik
+            - name: inside
+              label: Inside
+            - name: itw
+              label: ITW
+            - name: freescan
+              label: FreeScan
+
+      - name: date
+        label: Date
+        type: date
+        required: true
+
+      - name: author
+        label: Auteur
+        type: string
+
+      - name: cover
+        label: Image de une
+        type: image
+
+      - name: rating
+        label: Note sur 5
+        type: number
+
+      - name: youtubeEmbed
+        label: URL embed YouTube
+        type: string
+
+      - name: featured
+        label: Mise en avant
+        type: boolean
 
       - name: body
         label: Contenu
