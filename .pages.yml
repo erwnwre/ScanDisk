@@ -10,25 +10,36 @@ content:
     type: collection
     path: src/content/posts
     format: yaml-frontmatter
-    filename:
-      template: "{slug}.md"
-      field: create
     subfolders: false
+    filename: "{slug}.md"
+
+    view:
+      primary: title
+      fields: [title, section, date, featured]
+      sort: [date, title, section]
+      search: [title, excerpt, section, author]
+      default:
+        sort: date
+        order: desc
+
     fields:
       - name: title
         label: Titre
         type: string
         required: true
+        description: "Titre affiché sur le site."
 
       - name: slug
         label: Slug
         type: string
         required: true
+        description: "Utilisé dans l’URL et pour le nom du fichier. Exemple : booba-ultra"
 
       - name: excerpt
-        label: Extrait
+        label: Chapo / extrait
         type: text
         required: true
+        description: "Petit résumé affiché dans les mosaïques et listings."
 
       - name: section
         label: Rubrique
@@ -46,30 +57,47 @@ content:
               label: FreeScan
 
       - name: date
-        label: Date
+        label: Date de publication
         type: date
         required: true
+        description: "Date affichée sur le site."
 
       - name: author
         label: Auteur
         type: string
+        description: "Laisse ScanDisk si tu ne veux pas personnaliser."
 
       - name: cover
         label: Image de une
         type: image
+        description: "Image principale de l’article."
 
       - name: rating
         label: Note sur 5
         type: number
+        description: "À remplir uniquement pour les Chronik. Laisse vide pour les autres rubriques."
 
       - name: youtubeEmbed
-        label: URL embed YouTube
+        label: URL d’embed YouTube
         type: string
+        description: "Exemple : https://www.youtube.com/embed/XXXXXXXXXXX"
 
       - name: featured
-        label: Mise en avant
+        label: Mettre en avant
         type: boolean
+        description: "Active si tu veux pousser l’article en mise en avant."
 
       - name: body
-        label: Contenu
+        label: Contenu de l’article
         type: rich-text
+
+settings:
+  hide: true
+  content:
+    merge: true
+  commit:
+    templates:
+      create: "CMS: création {path}"
+      update: "CMS: mise à jour {path}"
+      delete: "CMS: suppression {path}"
+      rename: "CMS: renommage {oldPath} -> {newPath}"
