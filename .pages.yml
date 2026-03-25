@@ -1,8 +1,8 @@
 media:
-  input: public/media
-  output: /media
+  input: public/covers
+  output: /covers
   rename: true
-  categories: [image, document, video, audio]
+  categories: [image]
 
 content:
   - name: editorial
@@ -14,50 +14,23 @@ content:
         type: collection
         path: src/content/posts
         format: yaml-frontmatter
-        subfolders: false
-        filename:
-          template: "{year}-{month}-{day}-{slug}.md"
-          field: create
-
-        view:
-          primary: title
-          fields: [title, section, date, featured, author]
-          sort: [date, title, section, author]
-          search: [title, excerpt, section, author, seo.metaTitle]
-          default:
-            sort: date
-            order: desc
-
-        commit:
-          templates:
-            create: "edit(article): création {path}"
-            update: "edit(article): mise à jour {path}"
-            delete: "edit(article): suppression {path}"
-            rename: "edit(article): renommage {oldPath} -> {newPath}"
-
+        filename: "{slug}.md"
         fields:
           - name: title
             label: Titre
             type: string
-            required: true
-            description: "Titre affiché sur le site."
 
           - name: slug
             label: Slug
             type: string
-            required: true
-            description: "Utilisé dans l’URL. Exemple : booba-ultra"
 
           - name: excerpt
-            label: Chapo / extrait
+            label: Extrait
             type: text
-            required: true
-            description: "Résumé court affiché dans les mosaïques."
 
           - name: section
             label: Rubrique
             type: select
-            required: true
             options:
               values:
                 - name: chronik
@@ -70,100 +43,38 @@ content:
                   label: FreeScan
 
           - name: date
-            label: Date de publication
+            label: Date
             type: date
-            required: true
-            options:
-              format: "yyyy-MM-dd"
 
           - name: author
             label: Auteur
             type: string
-            description: "Tu peux laisser ScanDisk, ou mettre un nom précis."
 
           - name: cover
             label: Image de une
             type: image
-            description: "Cover principale de l’article."
 
           - name: rating
             label: Note sur 5
             type: number
-            description: "À remplir uniquement pour les Chronik."
 
           - name: youtubeEmbed
-            label: URL d’embed YouTube
+            label: URL embed YouTube
             type: string
-            description: "Exemple : https://www.youtube.com/embed/XXXXXXXXXXX"
 
           - name: featured
-            label: Mettre en avant
+            label: Mise en avant
             type: boolean
-            description: "Active si tu veux pousser l’article en vedette."
-
-          - name: seo
-            label: SEO
-            type: object
-            fields:
-              - name: metaTitle
-                label: Meta title
-                type: string
-              - name: metaDescription
-                label: Meta description
-                type: text
-
-          - name: credits
-            label: Crédits visuels / sources
-            type: object
-            fields:
-              - name: photographer
-                label: Photographe / crédit
-                type: string
-              - name: source
-                label: Source
-                type: string
-              - name: url
-                label: URL source
-                type: string
-
-          - name: gallery
-            label: Galerie
-            type: object
-            list: true
-            fields:
-              - name: image
-                label: Image
-                type: image
-              - name: caption
-                label: Légende
-                type: string
-
-          - name: relatedLinks
-            label: Liens associés
-            type: object
-            list: true
-            fields:
-              - name: label
-                label: Libellé
-                type: string
-              - name: url
-                label: URL
-                type: string
 
           - name: body
-            label: Contenu de l’article
+            label: Contenu
             type: rich-text
-            options:
-              format: markdown
-              switcher: true
-              categories: [image]
-              rename: true
 
   - name: settings_group
     label: Réglages
     type: group
     items:
-      - name: site_settings
+      - name: site
         label: Réglages du site
         type: file
         path: src/data/site.yml
@@ -176,7 +87,7 @@ content:
             label: Baseline
             type: text
           - name: description
-            label: Description générale
+            label: Description
             type: text
           - name: siteUrl
             label: URL du site
@@ -188,7 +99,7 @@ content:
             label: URL embed playlist
             type: string
           - name: footerText
-            label: Texte de footer
+            label: Texte footer
             type: text
           - name: contactEmail
             label: Email de contact
@@ -196,19 +107,8 @@ content:
           - name: openGraphImage
             label: Image Open Graph
             type: image
-          - name: socialLinks
-            label: Réseaux sociaux
-            type: object
-            list: true
-            fields:
-              - name: label
-                label: Nom
-                type: string
-              - name: url
-                label: URL
-                type: string
 
-      - name: home_settings
+      - name: home
         label: Réglages de la home
         type: file
         path: src/data/home.yml
@@ -238,66 +138,8 @@ content:
           - name: newsletterIntro
             label: Intro newsletter
             type: text
-          - name: seo
-            label: SEO home
-            type: object
-            fields:
-              - name: metaTitle
-                label: Meta title
-                type: string
-              - name: metaDescription
-                label: Meta description
-                type: text
-          - name: modules
-            label: Modules homepage
-            type: block
-            list: true
-            blockKey: type
-            blocks:
-              - name: quote
-                label: Citation
-                fields:
-                  - name: text
-                    label: Citation
-                    type: text
-                  - name: author
-                    label: Signature
-                    type: string
-              - name: spotlight
-                label: Spotlight
-                fields:
-                  - name: heading
-                    label: Titre
-                    type: string
-                  - name: text
-                    label: Texte
-                    type: rich-text
-                    options:
-                      format: markdown
-                  - name: image
-                    label: Image
-                    type: image
-              - name: cta
-                label: Call to action
-                fields:
-                  - name: heading
-                    label: Titre
-                    type: string
-                  - name: text
-                    label: Texte
-                    type: text
-                  - name: button
-                    label: Bouton
-                    type: object
-                    fields:
-                      - name: label
-                        label: Libellé
-                        type: string
-                      - name: url
-                        label: URL
-                        type: string
 
-      - name: navigation_settings
+      - name: navigation
         label: Navigation
         type: file
         path: src/data/navigation.yml
@@ -311,14 +153,14 @@ content:
             label: URL
             type: string
           - name: newTab
-            label: Ouvrir dans un nouvel onglet
+            label: Nouvel onglet
             type: boolean
 
   - name: pages_group
     label: Pages fixes
     type: group
     items:
-      - name: about_page
+      - name: about
         label: À propos
         type: file
         path: src/content/pages/about.md
@@ -330,25 +172,12 @@ content:
           - name: excerpt
             label: Extrait
             type: text
-          - name: seo
-            label: SEO
-            type: object
-            fields:
-              - name: metaTitle
-                label: Meta title
-                type: string
-              - name: metaDescription
-                label: Meta description
-                type: text
           - name: body
             label: Contenu
             type: rich-text
-            options:
-              format: markdown
-              switcher: true
 
-      - name: legal_page
-        label: Mentions / infos légales
+      - name: legal
+        label: Mentions légales
         type: file
         path: src/content/pages/legal.md
         format: yaml-frontmatter
@@ -362,17 +191,8 @@ content:
           - name: body
             label: Contenu
             type: rich-text
-            options:
-              format: markdown
-              switcher: true
 
 settings:
   hide: true
   content:
     merge: true
-  commit:
-    templates:
-      create: "cms(create): {path}"
-      update: "cms(update): {path}"
-      delete: "cms(delete): {path}"
-      rename: "cms(rename): {oldPath} -> {newPath}"
