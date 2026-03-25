@@ -1,0 +1,20 @@
+media:
+  input: public/covers
+  output: /covers
+  rename: true
+  categories: [image]
+
+content:
+  - name: posts
+    label: Articles
+    type: collection
+    path: src/content/posts
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: Titre
+        type: string
+
+      - name: body
+        label: Contenu
+        type: rich-text
