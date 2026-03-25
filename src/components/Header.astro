@@ -1,0 +1,23 @@
+---
+const pathname = Astro.url.pathname;
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/chronik/", label: "Chronik" },
+  { href: "/inside/", label: "Inside" },
+  { href: "/itw/", label: "ITW" },
+  { href: "/freescan/", label: "FreeScan" },
+];
+---
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="/" class="brand cheap-3d">ScanDisk</a>
+
+    <nav class="nav" aria-label="Navigation principale">
+      {nav.map((item) => (
+        <a href={item.href} class={pathname === item.href ? "active" : ""}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>

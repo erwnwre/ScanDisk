@@ -1,0 +1,27 @@
+---
+import { SITE } from "../consts";
+interface Props {
+  searchTarget?: string | null;
+  searchPlaceholder?: string;
+}
+const { searchTarget = null, searchPlaceholder = "Recherche" } = Astro.props;
+---
+<div class="player-bar">
+  <div class="container player-inner">
+    <div class="player-meta">
+      <div class="player-icon">▶</div>
+      <div class="player-title">
+        <span class="kicker">playlist épinglée</span>
+        <strong>ScanDisk / YouTube Music / embedded playlist</strong>
+      </div>
+      <a href={SITE.playlistUrl} target="_blank" rel="noreferrer" class="button">Open</a>
+    </div>
+
+    {searchTarget && (
+      <div class="search-top">
+        <label class="kicker" for={`search-${searchTarget}`}>recherche</label>
+        <input id={`search-${searchTarget}`} type="search" placeholder={searchPlaceholder} data-search-target={searchTarget} />
+      </div>
+    )}
+  </div>
+</div>

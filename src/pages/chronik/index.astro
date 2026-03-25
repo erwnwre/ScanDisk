@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionPageIntro from "../../components/SectionPageIntro.astro";
+import PostCard from "../../components/PostCard.astro";
+import { SECTIONS } from "../../consts";
+
+const section = "chronik";
+const posts = (await getCollection("posts"))
+  .filter((post) => post.data.section === section)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const meta = SECTIONS[section];
+---
+<BaseLayout title={meta.label} description={meta.description} searchTarget="chronik-grid" searchPlaceholder={`Recherche ${meta.label}`}>
+  <SectionPageIntro title={meta.label} description={meta.description} targetId="chronik-grid" />
+  <section style="margin-top:1.5rem">
+    <div id="chronik-grid" class="post-grid">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+    <div class="empty-state" data-empty-for="chronik-grid">Aucun article Lorem Ipsum ne correspond à ta recherche.</div>
+  </section>
+</BaseLayout>

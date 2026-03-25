@@ -1,0 +1,26 @@
+---
+import Window from "./Window.astro";
+interface Props {
+  title: string;
+  description: string;
+  targetId: string;
+}
+const { title, description, targetId } = Astro.props;
+---
+<Window title={`rubrique / ${title.toLowerCase()}`}>
+  <div class="two-col">
+    <div class="section-intro">
+      <span class="kicker">rubrique éditoriale</span>
+      <h1 class="page-title cheap-3d">{title}</h1>
+      <p>{description}</p>
+    </div>
+
+    <div class="search-box">
+      <span class="kicker">filtre rapide</span>
+      <div class="search-control">
+        <input type="search" placeholder={`Rechercher dans ${title}`} data-search-target={targetId} />
+      </div>
+      <p class="post-excerpt">En build final, ce champ filtre les cartes de la page côté navigateur sans backend.</p>
+    </div>
+  </div>
+</Window>

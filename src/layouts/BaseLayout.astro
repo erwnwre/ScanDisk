@@ -1,0 +1,95 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import PlayerBar from "../components/PlayerBar.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../consts";
+
+interface Props {
+  title?: string;
+  description?: string;
+  searchTarget?: string | null;
+  searchPlaceholder?: string;
+}
+const {
+  title = SITE.name,
+  description = SITE.description,
+  searchTarget = null,
+  searchPlaceholder = "Recherche",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · {SITE.name}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#E65F9C" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="decor" aria-hidden="true">
+        <div class="shape circle"></div>
+        <div class="shape square"></div>
+        <div class="shape cross"></div>
+        <div class="shape block"></div>
+        <div class="spark left">✦</div>
+        <div class="spark right">✦</div>
+        <div class="wave left"></div>
+        <div class="wave right"></div>
+      </div>
+
+      <Header />
+      <PlayerBar searchTarget={searchTarget} searchPlaceholder={searchPlaceholder} />
+
+      <main class="page-spacer">
+        <div class="container">
+          <slot />
+          <Footer />
+        </div>
+      </main>
+    </div>
+
+    <script is:inline>
+      const wireSearch = () => {
+        const inputs = document.querySelectorAll("[data-search-target]");
+        inputs.forEach((input) => {
+          if (!(input instanceof HTMLInputElement)) return;
+          const targetId = input.dataset.searchTarget;
+          if (!targetId) return;
+          const grid = document.getElementById(targetId);
+          if (!grid) return;
+          const cards = Array.from(grid.querySelectorAll("[data-card]"));
+          const emptyState = document.querySelector(`[data-empty-for="${targetId}"]`);
+
+          const sync = () => {
+            const query = input.value.trim().toLowerCase();
+            let visible = 0;
+
+            cards.forEach((card) => {
+              const hay = (card.getAttribute("data-search-text") || "").toLowerCase();
+              const match = hay.includes(query);
+              card.classList.toggle("hidden-card", !match);
+              if (match) visible += 1;
+            });
+
+            if (emptyState) {
+              emptyState.classList.toggle("visible", visible === 0);
+            }
+          };
+
+          input.addEventListener("input", sync);
+          sync();
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", wireSearch, { once: true });
+      } else {
+        wireSearch();
+      }
+    </script>
+  </body>
+</html>

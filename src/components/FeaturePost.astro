@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { SECTIONS } from "../consts";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+const { post } = Astro.props;
+const meta = SECTIONS[post.data.section];
+---
+<article class="feature-card">
+  <div class="feature-grid">
+    <div class="feature-visual" style={`background-image:url(${post.data.cover})`}></div>
+    <div class="card-body">
+      <span class="kicker">featured post</span>
+      <h2 class="feature-title cheap-3d">{post.data.title}</h2>
+      <p class="post-excerpt">{post.data.excerpt}</p>
+      <div class="meta-row">
+        <span class="meta-pill">{new Date(post.data.date).toLocaleDateString("fr-FR")}</span>
+        <span class="meta-pill cyan">{post.data.author}</span>
+        <span class="meta-pill pink">{meta.label}</span>
+      </div>
+      <p style="margin-top:1rem"><a href={`/article/${post.slug}/`} class="button pink">Ouvrir l’article</a></p>
+    </div>
+  </div>
+</article>

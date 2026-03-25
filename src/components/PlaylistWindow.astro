@@ -1,0 +1,27 @@
+---
+import Window from "./Window.astro";
+import { SITE } from "../consts";
+const embedUrl = `https://www.youtube.com/embed?listType=playlist&list=${SITE.playlistId}&playsinline=1&hl=fr&controls=1`;
+---
+<Window title="sticky playlist / scandisk radio" className="player-window">
+  <div class="panel-stack">
+    <div>
+      <span class="kicker">option B activée</span>
+      <h2 class="page-title cheap-3d" style="font-size:2.7rem">Playlist embed</h2>
+      <p class="panel-text">
+        Mini lecteur intégré dans un cadre cohérent avec le reste du site. Sur desktop, la barre
+        reste épinglée en haut. Sur mobile, elle se compacte proprement.
+      </p>
+    </div>
+
+    <iframe
+      title="ScanDisk playlist"
+      src={embedUrl}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+
+    <p><a href={SITE.playlistUrl} target="_blank" rel="noreferrer" class="button">Ouvrir sur YouTube Music</a></p>
+  </div>
+</Window>

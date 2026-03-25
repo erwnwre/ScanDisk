@@ -1,0 +1,19 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  icon?: string;
+}
+const { href, title, description, icon = "✦" } = Astro.props;
+---
+<a href={href} class="section-card">
+  <div class="section-card-header">
+    <div>
+      <span class="kicker" style="color:var(--violet)">rubrique</span>
+      <div class="section-name">{title}</div>
+    </div>
+    <div class="section-card-icon">{icon}</div>
+  </div>
+  <p>{description}</p>
+</a>

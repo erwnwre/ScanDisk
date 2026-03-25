@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import Window from "./Window.astro";
+import { SECTIONS } from "../consts";
+import StarRating from "./StarRating.astro";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const meta = SECTIONS[post.data.section];
+---
+<div style="margin-bottom:1rem">
+  <a href={`/${post.data.section}/`} class="button" style="box-shadow:6px 6px 0 var(--violet)">← Retour</a>
+</div>
+
+<Window title={`article / ${post.data.section}`}>
+  <div class="panel-stack">
+    <div class="article-hero" style={`background-image:url(${post.data.cover})`}></div>
+    <div>
+      <span class="kicker">{meta.label} / article</span>
+      <h1 class="page-title cheap-3d">{post.data.title}</h1>
+
+      <div class="meta-row" style="margin:1rem 0 1.2rem">
+        <span class="meta-pill">{new Date(post.data.date).toLocaleDateString("fr-FR")}</span>
+        <span class="meta-pill cyan">{post.data.author}</span>
+        <span class="meta-pill pink">{meta.label}</span>
+      </div>
+
+      {post.data.rating && <div style="margin-bottom:1rem"><StarRating value={post.data.rating} /></div>}
+      <p class="panel-text">{post.data.excerpt}</p>
+    </div>
+
+    <div class="article-grid">
+      <div class="article-copy"><Content /></div>
+
+      <div class="panel-stack">
+        <div class="info-box"><span class="kicker" style="color:var(--violet)">bloc média</span><strong>Image / galerie / capture / archive.</strong></div>
+
+        {post.data.youtubeEmbed && (
+          <div class="video-embed">
+            <iframe
+              title={`vid-${post.slug}`}
+              src={post.data.youtubeEmbed}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        )}
+
+        <div class="quote-box">
+          <span class="kicker">lorem metadata</span>
+          <div class="meta-list">
+            <div>Genre: Lorem Ipsum</div>
+            <div>Ville: Dolor Sit</div>
+            <div>Format: Article illustré</div>
+            <div>Embed: YouTube possible</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Window>

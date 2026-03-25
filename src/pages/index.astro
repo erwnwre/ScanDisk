@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeHero from "../components/HomeHero.astro";
+import PlaylistWindow from "../components/PlaylistWindow.astro";
+import FeaturePost from "../components/FeaturePost.astro";
+import PostCard from "../components/PostCard.astro";
+import { SECTIONS, SITE } from "../consts";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const featured = posts.find((post) => post.data.featured) ?? posts[0];
+const recent = posts.slice(0, 6);
+const sectionEntries = Object.entries(SECTIONS);
+---
+<BaseLayout title="Home" description={SITE.description} searchTarget="recent-grid" searchPlaceholder="Recherche rapide">
+  <div class="two-col" style="margin-bottom:2rem">
+    <HomeHero />
+    <PlaylistWindow />
+  </div>
+
+  <FeaturePost post={featured} />
+
+  <section style="margin-top:2rem">
+    <div class="title-row">
+      <div>
+        <span class="kicker" style="color:var(--cream)">aperçu de contenu</span>
+        <h2 class="page-title cheap-3d" style="margin-top:0.4rem">Mosaïque des rubriques</h2>
+      </div>
+      <div class="utility-chip">very online editorial system</div>
+    </div>
+
+    <div class="mosaic-grid" style="margin-top:1.25rem">
+      {sectionEntries.map(([key, meta]) => (
+        <a href={`/${key}/`} class="post-card">
+          <div class="cover-art" style={`background-image:url(/covers/${key}-cover.svg)`}></div>
+          <div class="card-body">
+            <span class="kicker">{meta.label}</span>
+            <h3 class="post-title">{meta.label}</h3>
+            <p class="post-excerpt">{meta.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section style="margin-top:2rem">
+    <div>
+      <span class="kicker" style="color:var(--cream)">articles récents</span>
+      <h2 class="page-title cheap-3d" style="margin-top:0.4rem">Latest Scan</h2>
+    </div>
+
+    <div id="recent-grid" class="post-grid" style="margin-top:1.25rem">
+      {recent.map((post) => <PostCard post={post} />)}
+    </div>
+    <div class="empty-state" data-empty-for="recent-grid">Aucun article Lorem Ipsum ne correspond à ta recherche.</div>
+  </section>
+</BaseLayout>

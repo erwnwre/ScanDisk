@@ -1,0 +1,43 @@
+---
+import Window from "./Window.astro";
+import SectionCard from "./SectionCard.astro";
+import { SECTIONS } from "../consts";
+---
+<Window title="landing page / scandisk home">
+  <div class="hero-grid">
+    <div>
+      <span class="kicker">chronik / inside / itw / freescan</span>
+      <h1 class="big-title cheap-3d">ScanDisk</h1>
+      <p class="panel-text">
+        Webzine musique statique, administrable et très internet-core. Palette rose, fenêtres faux
+        Windows, damiers, relief cheap et placeholders Lorem Ipsum partout.
+      </p>
+
+      <div class="section-card-grid" style="margin-top:1.5rem">
+        <SectionCard href="/chronik/" title="Chronik" description={SECTIONS.chronik.description} icon={SECTIONS.chronik.icon} />
+        <SectionCard href="/inside/" title="Inside" description={SECTIONS.inside.description} icon={SECTIONS.inside.icon} />
+        <SectionCard href="/itw/" title="ITW" description={SECTIONS.itw.description} icon={SECTIONS.itw.icon} />
+        <SectionCard href="/freescan/" title="FreeScan" description={SECTIONS.freescan.description} icon={SECTIONS.freescan.icon} />
+      </div>
+
+      <div class="meta-row" style="margin-top:1.6rem">
+        <a href="/chronik/" class="button">Voir les rubriques</a>
+        <a href="/freescan/" class="button cyan">Dernier FreeScan</a>
+      </div>
+    </div>
+
+    <div class="panel-stack">
+      <div class="search-box">
+        <span class="kicker">recherche articles</span>
+        <div class="search-control">
+          <input type="search" placeholder="Tape un artiste, un genre, un sujet" data-search-target="recent-grid" />
+          <button class="button pink" type="button">OK</button>
+        </div>
+      </div>
+
+      <div class="info-box"><span class="kicker" style="color:var(--violet)">article illustré</span><strong>Photos à la une, galeries, captures, archives.</strong></div>
+      <div class="info-box yellow"><span class="kicker" style="color:var(--violet)">embed vidéo</span><strong>YouTube intégré directement dans les articles.</strong></div>
+      <div class="info-box cream"><span class="kicker">mobile first check</span><strong>Version mobile prévue dès le build final. Pas de mode sombre.</strong></div>
+    </div>
+  </div>
+</Window>

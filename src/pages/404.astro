@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Window from "../components/Window.astro";
+---
+<BaseLayout title="404" description="Page non trouvée" searchTarget={null}>
+  <Window title="404 / page introuvable">
+    <div class="panel-stack">
+      <span class="kicker">wrong floppy disk</span>
+      <h1 class="page-title cheap-3d">404</h1>
+      <p class="panel-text">La page demandée n’existe pas ou a changé de dossier. Retourne à l’accueil ou repasse par une rubrique.</p>
+      <p><a href="/" class="button">Retour accueil</a></p>
+    </div>
+  </Window>
+</BaseLayout>

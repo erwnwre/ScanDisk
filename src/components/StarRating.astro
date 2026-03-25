@@ -1,0 +1,13 @@
+---
+interface Props { value: number; }
+const { value } = Astro.props;
+const stars = Array.from({ length: 5 }, (_, index) => {
+  const current = index + 1;
+  if (value >= current) return "full";
+  if (value >= current - 0.5) return "half";
+  return "empty";
+});
+---
+<div class="stars" aria-label={`Note ${value} sur 5`}>
+  {stars.map((state) => <span class={`star ${state}`} aria-hidden="true"></span>)}
+</div>
