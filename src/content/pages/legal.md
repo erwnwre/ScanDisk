@@ -1,0 +1,6 @@
+---
+title: "Mentions légales"
+excerpt: "Lorem ipsum dolor sit amet."
+---
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
