@@ -1,0 +1,15 @@
+- label: "Home"
+  url: "/"
+  newTab: false
+- label: "Chronik"
+  url: "/chronik"
+  newTab: false
+- label: "Inside"
+  url: "/inside"
+  newTab: false
+- label: "ITW"
+  url: "/itw"
+  newTab: false
+- label: "FreeScan"
+  url: "/freescan"
+  newTab: false
