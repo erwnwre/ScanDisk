@@ -1,95 +1,370 @@
 media:
-  input: public/covers
-  output: /covers
+  input: public/media
+  output: /media
   rename: true
-  categories: [image]
+  categories: [image, document, video, audio]
 
 content:
-  - name: posts
-    label: Articles
-    type: collection
-    path: src/content/posts
-    format: yaml-frontmatter
-    subfolders: false
-    filename: "{slug}.md"
+  - name: editorial
+    label: Éditorial
+    type: group
+    items:
+      - name: posts
+        label: Articles
+        type: collection
+        path: src/content/posts
+        format: yaml-frontmatter
+        subfolders: false
+        filename:
+          template: "{year}-{month}-{day}-{slug}.md"
+          field: create
 
-    view:
-      primary: title
-      fields: [title, section, date, featured]
-      sort: [date, title, section]
-      search: [title, excerpt, section, author]
-      default:
-        sort: date
-        order: desc
+        view:
+          primary: title
+          fields: [title, section, date, featured, author]
+          sort: [date, title, section, author]
+          search: [title, excerpt, section, author, seo.metaTitle]
+          default:
+            sort: date
+            order: desc
 
-    fields:
-      - name: title
-        label: Titre
-        type: string
-        required: true
-        description: "Titre affiché sur le site."
+        commit:
+          templates:
+            create: "edit(article): création {path}"
+            update: "edit(article): mise à jour {path}"
+            delete: "edit(article): suppression {path}"
+            rename: "edit(article): renommage {oldPath} -> {newPath}"
 
-      - name: slug
-        label: Slug
-        type: string
-        required: true
-        description: "Utilisé dans l’URL et pour le nom du fichier. Exemple : booba-ultra"
+        fields:
+          - name: title
+            label: Titre
+            type: string
+            required: true
+            description: "Titre affiché sur le site."
 
-      - name: excerpt
-        label: Chapo / extrait
-        type: text
-        required: true
-        description: "Petit résumé affiché dans les mosaïques et listings."
+          - name: slug
+            label: Slug
+            type: string
+            required: true
+            description: "Utilisé dans l’URL. Exemple : booba-ultra"
 
-      - name: section
-        label: Rubrique
-        type: select
-        required: true
-        options:
-          values:
-            - name: chronik
-              label: Chronik
-            - name: inside
-              label: Inside
-            - name: itw
-              label: ITW
-            - name: freescan
-              label: FreeScan
+          - name: excerpt
+            label: Chapo / extrait
+            type: text
+            required: true
+            description: "Résumé court affiché dans les mosaïques."
 
-      - name: date
-        label: Date de publication
-        type: date
-        required: true
-        description: "Date affichée sur le site."
+          - name: section
+            label: Rubrique
+            type: select
+            required: true
+            options:
+              values:
+                - name: chronik
+                  label: Chronik
+                - name: inside
+                  label: Inside
+                - name: itw
+                  label: ITW
+                - name: freescan
+                  label: FreeScan
 
-      - name: author
-        label: Auteur
-        type: string
-        description: "Laisse ScanDisk si tu ne veux pas personnaliser."
+          - name: date
+            label: Date de publication
+            type: date
+            required: true
+            options:
+              format: "yyyy-MM-dd"
 
-      - name: cover
-        label: Image de une
-        type: image
-        description: "Image principale de l’article."
+          - name: author
+            label: Auteur
+            type: string
+            description: "Tu peux laisser ScanDisk, ou mettre un nom précis."
 
-      - name: rating
-        label: Note sur 5
-        type: number
-        description: "À remplir uniquement pour les Chronik. Laisse vide pour les autres rubriques."
+          - name: cover
+            label: Image de une
+            type: image
+            description: "Cover principale de l’article."
 
-      - name: youtubeEmbed
-        label: URL d’embed YouTube
-        type: string
-        description: "Exemple : https://www.youtube.com/embed/XXXXXXXXXXX"
+          - name: rating
+            label: Note sur 5
+            type: number
+            description: "À remplir uniquement pour les Chronik."
 
-      - name: featured
-        label: Mettre en avant
-        type: boolean
-        description: "Active si tu veux pousser l’article en mise en avant."
+          - name: youtubeEmbed
+            label: URL d’embed YouTube
+            type: string
+            description: "Exemple : https://www.youtube.com/embed/XXXXXXXXXXX"
 
-      - name: body
-        label: Contenu de l’article
-        type: rich-text
+          - name: featured
+            label: Mettre en avant
+            type: boolean
+            description: "Active si tu veux pousser l’article en vedette."
+
+          - name: seo
+            label: SEO
+            type: object
+            fields:
+              - name: metaTitle
+                label: Meta title
+                type: string
+              - name: metaDescription
+                label: Meta description
+                type: text
+
+          - name: credits
+            label: Crédits visuels / sources
+            type: object
+            fields:
+              - name: photographer
+                label: Photographe / crédit
+                type: string
+              - name: source
+                label: Source
+                type: string
+              - name: url
+                label: URL source
+                type: string
+
+          - name: gallery
+            label: Galerie
+            type: object
+            list: true
+            fields:
+              - name: image
+                label: Image
+                type: image
+              - name: caption
+                label: Légende
+                type: string
+
+          - name: relatedLinks
+            label: Liens associés
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Libellé
+                type: string
+              - name: url
+                label: URL
+                type: string
+
+          - name: body
+            label: Contenu de l’article
+            type: rich-text
+            options:
+              format: markdown
+              switcher: true
+              categories: [image]
+              rename: true
+
+  - name: settings_group
+    label: Réglages
+    type: group
+    items:
+      - name: site_settings
+        label: Réglages du site
+        type: file
+        path: src/data/site.yml
+        format: yaml
+        fields:
+          - name: siteName
+            label: Nom du site
+            type: string
+          - name: baseline
+            label: Baseline
+            type: text
+          - name: description
+            label: Description générale
+            type: text
+          - name: siteUrl
+            label: URL du site
+            type: string
+          - name: playlistUrl
+            label: URL playlist
+            type: string
+          - name: playlistEmbed
+            label: URL embed playlist
+            type: string
+          - name: footerText
+            label: Texte de footer
+            type: text
+          - name: contactEmail
+            label: Email de contact
+            type: string
+          - name: openGraphImage
+            label: Image Open Graph
+            type: image
+          - name: socialLinks
+            label: Réseaux sociaux
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Nom
+                type: string
+              - name: url
+                label: URL
+                type: string
+
+      - name: home_settings
+        label: Réglages de la home
+        type: file
+        path: src/data/home.yml
+        format: yaml
+        fields:
+          - name: heroTitle
+            label: Titre hero
+            type: string
+          - name: heroIntro
+            label: Intro hero
+            type: text
+          - name: marqueeText
+            label: Texte secondaire
+            type: text
+          - name: featuredTitle
+            label: Titre bloc vedette
+            type: string
+          - name: latestTitle
+            label: Titre bloc derniers articles
+            type: string
+          - name: mosaicTitle
+            label: Titre bloc mosaïque
+            type: string
+          - name: newsletterTitle
+            label: Titre bloc newsletter
+            type: string
+          - name: newsletterIntro
+            label: Intro newsletter
+            type: text
+          - name: seo
+            label: SEO home
+            type: object
+            fields:
+              - name: metaTitle
+                label: Meta title
+                type: string
+              - name: metaDescription
+                label: Meta description
+                type: text
+          - name: modules
+            label: Modules homepage
+            type: block
+            list: true
+            blockKey: type
+            blocks:
+              - name: quote
+                label: Citation
+                fields:
+                  - name: text
+                    label: Citation
+                    type: text
+                  - name: author
+                    label: Signature
+                    type: string
+              - name: spotlight
+                label: Spotlight
+                fields:
+                  - name: heading
+                    label: Titre
+                    type: string
+                  - name: text
+                    label: Texte
+                    type: rich-text
+                    options:
+                      format: markdown
+                  - name: image
+                    label: Image
+                    type: image
+              - name: cta
+                label: Call to action
+                fields:
+                  - name: heading
+                    label: Titre
+                    type: string
+                  - name: text
+                    label: Texte
+                    type: text
+                  - name: button
+                    label: Bouton
+                    type: object
+                    fields:
+                      - name: label
+                        label: Libellé
+                        type: string
+                      - name: url
+                        label: URL
+                        type: string
+
+      - name: navigation_settings
+        label: Navigation
+        type: file
+        path: src/data/navigation.yml
+        format: yaml
+        list: true
+        fields:
+          - name: label
+            label: Libellé
+            type: string
+          - name: url
+            label: URL
+            type: string
+          - name: newTab
+            label: Ouvrir dans un nouvel onglet
+            type: boolean
+
+  - name: pages_group
+    label: Pages fixes
+    type: group
+    items:
+      - name: about_page
+        label: À propos
+        type: file
+        path: src/content/pages/about.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: excerpt
+            label: Extrait
+            type: text
+          - name: seo
+            label: SEO
+            type: object
+            fields:
+              - name: metaTitle
+                label: Meta title
+                type: string
+              - name: metaDescription
+                label: Meta description
+                type: text
+          - name: body
+            label: Contenu
+            type: rich-text
+            options:
+              format: markdown
+              switcher: true
+
+      - name: legal_page
+        label: Mentions / infos légales
+        type: file
+        path: src/content/pages/legal.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: excerpt
+            label: Extrait
+            type: text
+          - name: body
+            label: Contenu
+            type: rich-text
+            options:
+              format: markdown
+              switcher: true
 
 settings:
   hide: true
@@ -97,7 +372,7 @@ settings:
     merge: true
   commit:
     templates:
-      create: "CMS: création {path}"
-      update: "CMS: mise à jour {path}"
-      delete: "CMS: suppression {path}"
-      rename: "CMS: renommage {oldPath} -> {newPath}"
+      create: "cms(create): {path}"
+      update: "cms(update): {path}"
+      delete: "cms(delete): {path}"
+      rename: "cms(rename): {oldPath} -> {newPath}"
