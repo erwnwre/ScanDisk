@@ -10,19 +10,49 @@ content:
     type: collection
     path: src/content/posts
     format: yaml-frontmatter
+    filename:
+      template: "{year}-{month}-{day}-{slug}.md"
+      field: create
+
+    view:
+      primary: title
+      fields: [title, section, date, featured, author]
+      sort: [date, title, section, author]
+      search: [title, excerpt, section, author]
+      default:
+        sort: date
+        order: desc
+
     fields:
       - name: title
         label: Titre
         type: string
+        required: true
+        description: "Titre affiché sur le site."
+        options:
+          minlength: 3
+          maxlength: 120
+
       - name: slug
         label: Slug
         type: string
+        required: true
+        description: "Utilisé dans l’URL. Exemple : booba-ultra"
+        options:
+          minlength: 3
+          maxlength: 120
+
       - name: excerpt
-        label: Extrait
+        label: Chapo / extrait
         type: text
+        required: true
+        description: "Résumé court affiché dans les mosaïques."
+
       - name: section
         label: Rubrique
         type: select
+        required: true
+        description: "Choisis la rubrique de publication."
         options:
           values:
             - name: chronik
@@ -33,27 +63,52 @@ content:
               label: ITW
             - name: freescan
               label: FreeScan
+
       - name: date
-        label: Date
+        label: Date de publication
         type: date
+        required: true
+        default: ""
+        description: "Date affichée sur le site."
+        options:
+          format: "yyyy-MM-dd"
+
       - name: author
         label: Auteur
         type: string
+        description: "Tu peux laisser ScanDisk, ou mettre un nom précis."
+        options:
+          maxlength: 80
+
       - name: cover
         label: Image de une
         type: image
+        description: "Image principale de l’article."
+
       - name: rating
         label: Note sur 5
         type: number
+        description: "À remplir uniquement pour les Chronik."
+
       - name: youtubeEmbed
         label: URL embed YouTube
         type: string
+        description: "Exemple : https://www.youtube.com/embed/XXXXXXXXXXX"
+
       - name: featured
         label: Mise en avant
         type: boolean
+        description: "Active si tu veux pousser l’article dans les blocs vedettes."
+
       - name: body
         label: Contenu
         type: rich-text
+        description: "Corps principal de l’article."
+        options:
+          format: markdown
+          switcher: true
+          categories: [image]
+          rename: true
 
   - name: site
     label: Réglages du site
@@ -173,3 +228,9 @@ settings:
   hide: true
   content:
     merge: true
+  commit:
+    templates:
+      create: "cms(create): {path}"
+      update: "cms(update): {path}"
+      delete: "cms(delete): {path}"
+      rename: "cms(rename): {oldPath} -> {newPath}"
