@@ -5,194 +5,28 @@ media:
   categories: [image]
 
 content:
-  - name: editorial
-    label: Éditorial
-    type: group
-    items:
-      - name: posts
-        label: Articles
-        type: collection
-        path: src/content/posts
-        format: yaml-frontmatter
-        filename: "{slug}.md"
-        fields:
-          - name: title
-            label: Titre
-            type: string
+  - name: posts
+    label: Articles
+    type: collection
+    path: src/content/posts
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: Titre
+        type: string
+      - name: body
+        label: Contenu
+        type: rich-text
 
-          - name: slug
-            label: Slug
-            type: string
-
-          - name: excerpt
-            label: Extrait
-            type: text
-
-          - name: section
-            label: Rubrique
-            type: select
-            options:
-              values:
-                - name: chronik
-                  label: Chronik
-                - name: inside
-                  label: Inside
-                - name: itw
-                  label: ITW
-                - name: freescan
-                  label: FreeScan
-
-          - name: date
-            label: Date
-            type: date
-
-          - name: author
-            label: Auteur
-            type: string
-
-          - name: cover
-            label: Image de une
-            type: image
-
-          - name: rating
-            label: Note sur 5
-            type: number
-
-          - name: youtubeEmbed
-            label: URL embed YouTube
-            type: string
-
-          - name: featured
-            label: Mise en avant
-            type: boolean
-
-          - name: body
-            label: Contenu
-            type: rich-text
-
-  - name: settings_group
-    label: Réglages
-    type: group
-    items:
-      - name: site
-        label: Réglages du site
-        type: file
-        path: src/data/site.yml
-        format: yaml
-        fields:
-          - name: siteName
-            label: Nom du site
-            type: string
-          - name: baseline
-            label: Baseline
-            type: text
-          - name: description
-            label: Description
-            type: text
-          - name: siteUrl
-            label: URL du site
-            type: string
-          - name: playlistUrl
-            label: URL playlist
-            type: string
-          - name: playlistEmbed
-            label: URL embed playlist
-            type: string
-          - name: footerText
-            label: Texte footer
-            type: text
-          - name: contactEmail
-            label: Email de contact
-            type: string
-          - name: openGraphImage
-            label: Image Open Graph
-            type: image
-
-      - name: home
-        label: Réglages de la home
-        type: file
-        path: src/data/home.yml
-        format: yaml
-        fields:
-          - name: heroTitle
-            label: Titre hero
-            type: string
-          - name: heroIntro
-            label: Intro hero
-            type: text
-          - name: marqueeText
-            label: Texte secondaire
-            type: text
-          - name: featuredTitle
-            label: Titre bloc vedette
-            type: string
-          - name: latestTitle
-            label: Titre bloc derniers articles
-            type: string
-          - name: mosaicTitle
-            label: Titre bloc mosaïque
-            type: string
-          - name: newsletterTitle
-            label: Titre bloc newsletter
-            type: string
-          - name: newsletterIntro
-            label: Intro newsletter
-            type: text
-
-      - name: navigation
-        label: Navigation
-        type: file
-        path: src/data/navigation.yml
-        format: yaml
-        list: true
-        fields:
-          - name: label
-            label: Libellé
-            type: string
-          - name: url
-            label: URL
-            type: string
-          - name: newTab
-            label: Nouvel onglet
-            type: boolean
-
-  - name: pages_group
-    label: Pages fixes
-    type: group
-    items:
-      - name: about
-        label: À propos
-        type: file
-        path: src/content/pages/about.md
-        format: yaml-frontmatter
-        fields:
-          - name: title
-            label: Titre
-            type: string
-          - name: excerpt
-            label: Extrait
-            type: text
-          - name: body
-            label: Contenu
-            type: rich-text
-
-      - name: legal
-        label: Mentions légales
-        type: file
-        path: src/content/pages/legal.md
-        format: yaml-frontmatter
-        fields:
-          - name: title
-            label: Titre
-            type: string
-          - name: excerpt
-            label: Extrait
-            type: text
-          - name: body
-            label: Contenu
-            type: rich-text
-
-settings:
-  hide: true
-  content:
-    merge: true
+  - name: site
+    label: Réglages du site
+    type: file
+    path: src/data/site.yml
+    format: yaml
+    fields:
+      - name: siteName
+        label: Nom du site
+        type: string
+      - name: baseline
+        label: Baseline
+        type: text
