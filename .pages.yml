@@ -100,15 +100,15 @@ content:
         type: boolean
         description: "Active si tu veux pousser l’article dans les blocs vedettes."
 
-      - name: body
-        label: Contenu
-        type: rich-text
-        description: "Corps principal de l’article."
-        options:
-          format: markdown
-          switcher: true
-          categories: [image]
-          rename: true
+     - name: body
+       label: Contenu de l’article
+       type: rich-text
+       description: "Corps principal de l’article."
+       options:
+         format: markdown
+         switcher: true
+         categories: [image]
+         rename: true
 
   - name: site
     label: Réglages du site
