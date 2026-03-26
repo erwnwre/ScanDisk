@@ -86,9 +86,9 @@ content:
         description: "Image principale de l’article."
 
       - name: rating
-        label: Note sur 5
+        label: Note /5
         type: number
-        description: "À remplir uniquement pour les Chronik."
+        description: "À remplir uniquement pour les Chronik. Laisser vide pour les autres rubriques."
 
       - name: youtubeEmbed
         label: URL embed YouTube
@@ -100,15 +100,15 @@ content:
         type: boolean
         description: "Active si tu veux pousser l’article dans les blocs vedettes."
 
-     - name: body
-       label: Contenu de l’article
-       type: rich-text
-       description: "Corps principal de l’article."
-       options:
-         format: markdown
-         switcher: true
-         categories: [image]
-         rename: true
+      - name: body
+        label: Contenu de l’article
+        type: rich-text
+        description: "Corps principal de l’article."
+        options:
+          format: markdown
+          switcher: true
+          categories: [image]
+          rename: true
 
   - name: site
     label: Réglages du site
