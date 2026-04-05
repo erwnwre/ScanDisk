@@ -17,33 +17,35 @@ const meta = SECTIONS[post.data.section];
 </div>
 
 <Window title={`article / ${post.data.section}`}>
-  <div class="panel-stack">
-    <div class="article-hero-frame">
-      <img src={post.data.cover} alt={post.data.title} class="article-hero-image" />
-    </div>
-
+  <div class="panel-stack article-shell">
     <div>
       <span class="kicker">{meta.label} / article</span>
       <h1 class="page-title cheap-3d">{post.data.title}</h1>
 
-      <div class="meta-row" style="margin:1rem 0 1.2rem">
+      <div class="meta-row article-meta-row">
         <span class="meta-pill">{new Date(post.data.date).toLocaleDateString("fr-FR")}</span>
-        <span class="meta-pill cyan">{post.data.author}</span>
         <span class="meta-pill pink">{meta.label}</span>
       </div>
 
-      {post.data.rating && <div style="margin-bottom:1rem"><StarRating value={post.data.rating} /></div>}
+      {post.data.rating && (
+        <div style="margin-bottom:1rem">
+          <StarRating value={post.data.rating} />
+        </div>
+      )}
+
       <p class="panel-text">{post.data.excerpt}</p>
     </div>
 
-    <div class="article-grid">
-      <div class="article-copy"><Content /></div>
-
-      <div class="panel-stack">
-        <div class="info-box"><span class="kicker" style="color:var(--violet)">bloc média</span><strong>Image / galerie / capture / archive.</strong></div>
+    <div class="article-body-flow">
+      <aside class="article-sidebar">
+        {post.data.cover && (
+          <div class="sidebar-frame">
+            <img src={post.data.cover} alt={post.data.title} class="sidebar-cover-image" />
+          </div>
+        )}
 
         {post.data.youtubeEmbed && (
-          <div class="video-embed">
+          <div class="video-embed sidebar-frame">
             <iframe
               title={`vid-${post.slug}`}
               src={post.data.youtubeEmbed}
@@ -53,43 +55,74 @@ const meta = SECTIONS[post.data.section];
             ></iframe>
           </div>
         )}
+      </aside>
 
-        <div class="quote-box">
-          <span class="kicker">lorem metadata</span>
-          <div class="meta-list">
-            <div>Genre: Lorem Ipsum</div>
-            <div>Ville: Dolor Sit</div>
-            <div>Format: Article illustré</div>
-            <div>Embed: YouTube possible</div>
-          </div>
-        </div>
+      <div class="article-copy">
+        <Content />
       </div>
     </div>
   </div>
 </Window>
 
 <style>
-  .article-hero-frame {
-    width: 100%;
-    min-height: 320px;
-    background: var(--cream);
-    border: 4px solid var(--violet);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding: 16px;
-    box-sizing: border-box;
-    box-shadow: 8px 8px 0 var(--violet);
+  .article-shell {
+    gap: 1.25rem;
   }
 
-  .article-hero-image {
-    max-width: 100%;
-    max-height: 420px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    object-position: center;
+  .article-meta-row {
+    margin: 1rem 0 1.2rem;
+  }
+
+  .article-body-flow {
     display: block;
+  }
+
+  .article-sidebar {
+    float: right;
+    width: min(340px, 100%);
+    margin: 0 0 1.25rem 1.25rem;
+  }
+
+  .sidebar-frame {
+    border: 4px solid var(--violet);
+    background: var(--cream);
+    box-shadow: 8px 8px 0 var(--violet);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-cover-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .video-embed {
+    background: var(--violet);
+  }
+
+  .video-embed iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+
+  .article-copy {
+    min-width: 0;
+  }
+
+  .article-copy::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  @media (max-width: 900px) {
+    .article-sidebar {
+      float: none;
+      width: 100%;
+      margin: 0 0 1rem 0;
+    }
   }
 </style>
